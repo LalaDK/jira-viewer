@@ -13,11 +13,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = __dirname + '/frontend/dist/';
 const app = express();
+
 app.use(express.static(path));
-var corsOptions = {
-    origin: "http://localhost:8081"
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -42,7 +40,7 @@ app.get('/issues', async function (req,res) {
 
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8888;
+const PORT = 8888;//process.env.PORT || 8888;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
