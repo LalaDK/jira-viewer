@@ -103,7 +103,7 @@
                             v-for="(comment, index) in issue.fields.comment.comments"
                             :key="index"
                           >
-                            <div class="bold">
+                            <div class="bold small">
                               {{ comment.author.displayName }} -
                               {{ Date.create(comment.created).format('%d/%m-%Y') }}
                             </div>
