@@ -1,7 +1,7 @@
 # jira-viewer
 
-#### Setup (~/.bashrc, ~/.zshrc etc.)
->export JIRA_VIEWER_PERSONAL_ACCESS_TOKEN="..."
+#### Live in action!
+> https://slow.horse/
 
 #### Run Procfile
 > hivemind
