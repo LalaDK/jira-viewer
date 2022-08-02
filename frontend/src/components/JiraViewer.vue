@@ -236,7 +236,7 @@ export default {
     },
 
     query() {
-      axios.post('/issues', { token: this.token }).then(
+      axios.post('/api/issues', { token: this.token }).then(
         (response) => {
           this.response = response.data
         },
