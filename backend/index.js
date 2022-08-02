@@ -1,12 +1,15 @@
 const jira = require("jira.js");
 const Version2Client = jira.Version2Client;
-const client = new Version2Client({
+
+function getClient(token) {
+return new Version2Client({
     host: 'https://jira.eg.dk/',
     newErrorHandling: true,
     authentication: {
-      personalAccessToken: process.env.JIRA_VIEWER_PERSONAL_ACCESS_TOKEN
+      personalAccessToken: token
     },
 });
+}
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -19,16 +22,22 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', function (req,res) {
-    res.sendFile(path + "index.html");
-});
-
 app.get('/projects', async function (req,res) {
-  const projects = await client.projects.getAllProjects();
-  res.json(projects);
+  try {
+    const token = req.body.token;
+    const client = getClient(token);
+    const projects = await client.projects.getAllProjects();
+    res.json(projects);
+  } catch(e) {
+    res.status(500);
+    res.json({});
+  }
 });
 
-app.get('/issues', async function (req,res) {
+app.post('/issues', async function (req,res) {
+  try {
+  const token = req.body.token;
+  const client = getClient(token);
   const params = {
     jql: 'Project=UNO&status!=Done',
     fields: "*all",
@@ -36,6 +45,12 @@ app.get('/issues', async function (req,res) {
   };
   const issues = await client.issueSearch.searchForIssuesUsingJql(params);
   res.json(issues);
+  } catch (error) {
+
+    res.status(500);
+    res.json({});
+  }
+  
 });
 
 
