@@ -236,7 +236,7 @@ export default {
     },
 
     query() {
-      axios.post('http://localhost:8888/issues', { token: this.token }).then(
+      axios.post('/issues', { token: this.token }).then(
         (response) => {
           this.response = response.data
         },
