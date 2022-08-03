@@ -2,6 +2,11 @@
   <div>
     <b-container>
       <b-row class="my-3">
+        <b-icon-water></b-icon-water>
+        <br>
+        <br>
+        <br>
+        <br>
         <b-col>
           <b-input-group>
             <b-input-group-prepend>
