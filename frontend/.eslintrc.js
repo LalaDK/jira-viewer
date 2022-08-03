@@ -5,9 +5,9 @@ module.exports = {
   settings: {
     'prettier-vue': {
       SFCBlocks: {
-        template: true,
-        script: true,
-        style: true,
+        template: false,
+        script: false,
+        style: false,
         customBlocks: {
           docs: { lang: 'markdown' },
           config: { lang: 'json' },

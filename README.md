@@ -4,7 +4,7 @@
 > https://slow.horse/
 
 #### Run Procfile
-> hivemind
+> overmind start -N
 
 #### TODO
 > A lot!
