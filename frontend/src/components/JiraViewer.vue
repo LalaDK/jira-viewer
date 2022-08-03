@@ -6,28 +6,8 @@
           <b-input-group>
             <b-input-group-prepend>
               <b-button variant="outline-secondary" @click="reverseOrder = !reverseOrder">
-                <svg
-                    v-if="reverseOrder"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512"
-                    width="16"
-                    height="16"
-                >
-                  <path
-                      d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224z"
-                  />
-                </svg>
-                <svg
-                    v-else
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 320 512"
-                    width="16"
-                    height="16"
-                >
-                  <path
-                      d="M311.9 335.1l-132.4 136.8C174.1 477.3 167.1 480 160 480c-7.055 0-14.12-2.702-19.47-8.109l-132.4-136.8C-9.229 317.8 3.055 288 27.66 288h264.7C316.9 288 329.2 317.8 311.9 335.1z"
-                  />
-                </svg>
+                <b-icon-sort-up-alt v-if="reverseOrder"/>
+                <b-icon-sort-down-alt v-else/>
               </b-button>
             </b-input-group-prepend>
             <b-form-select v-model="teamName">
@@ -38,19 +18,7 @@
             <b-input-group-append>
               <b-button variant="outline-secondary" @click="changeToken">
                 Token
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-key"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"
-                  />
-                  <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-                </svg>
+              <b-icon-key/>
               </b-button>
             </b-input-group-append>
           </b-input-group>
