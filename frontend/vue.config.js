@@ -8,9 +8,9 @@ module.exports = defineConfig({
         target: 'http://localhost:8888',
         ws: true,
         changeOrigin: true,
-        pathRewrite: {'^/api': ''},
+        pathRewrite: { '^/api': '' },
         secure: false,
-        logLevel: 'debug'
+        logLevel: 'debug',
       },
     },
   },

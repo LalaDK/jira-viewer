@@ -3,15 +3,14 @@
 </template>
 
 <script>
-import JiraViewer from './components/JiraViewer.vue'
+import JiraViewer from "./components/JiraViewer.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     JiraViewer,
   },
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>
