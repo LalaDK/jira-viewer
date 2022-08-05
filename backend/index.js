@@ -22,22 +22,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/projects', async function (req,res) {
-  try {
-    const token = req.body.token;
-    const client = getClient(token);
-    const projects = await client.projects.getAllProjects();
-    res.json(projects);
-  } catch(e) {
-    res.status(500);
-    res.json({});
-  }
-});
-
 app.post('/issues', async function (req,res) {
+  console.log("/issues")
   try {
   const token = req.body.token;
   const client = getClient(token);
+  console.log("token", token)
   const params = {
     jql: 'Project=UNO&status!=Done',
     fields: "*all",
@@ -46,16 +36,17 @@ app.post('/issues', async function (req,res) {
   const issues = await client.issueSearch.searchForIssuesUsingJql(params);
   res.json(issues);
   } catch (error) {
-
+    console.log(error);
     res.status(500);
-    res.json({});
+    let text = error.errorMessages.join("");
+    console.log("text", text);
+    res.send(text);
   }
   
 });
 
 
-// set port, listen for requests
 const PORT = 8888;//process.env.PORT || 8888;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+  console.log(`API server is running on port ${PORT}.`);
 });

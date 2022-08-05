@@ -1,8 +1,5 @@
-class Category {
-  static teamNames = [];
-
+export default class Category {
   constructor(name, color) {
-    this.show = false;
     this.issues = [];
     this.name = name;
     this.setColor(color);
@@ -26,56 +23,7 @@ class Category {
     }
   }
 
-  getColor() {
-    return this.color;
-  }
-
-  static defaultCategorySortOrder() {
-    return [
-      "Not Done",
-      "To Do",
-      "Refinement",
-      "Ready",
-      "In Progress",
-      "Ready for Test",
-      "Ready for Release",
-      "In production",
-    ];
-  }
-
-  static generateCategories(issues) {
-    issues = issues.filter((issue) => {
-
-      // We are already iterating, so why not ...
-      let teamName = (issue.fields.customfield_10216 || {}).value;
-      if(teamName && Category.teamNames.indexOf(teamName) == -1) {
-        Category.teamNames.push(teamName);
-      }
-      
-      if (issue.fields.issuetype.subtask) {
-        return false;
-      }
-      if (issue.fields.issuetype.name == "Epic") {
-        return false;
-      }
-
-      return true;
-    });
-    if (!issues || !issues.length) {
-      throw "Argument 'issues' is empty!";
-    }
-
-    let categories = [];
-
-    issues = issues.groupBy((issue) => issue.fields.status.name);
-    Object.keys(issues).forEach((key) => {
-      let category = new Category(key);
-      category.issues = issues[key];
-      categories.push(category);
-    });
-
-    return categories;
+  addIssue(issue) {
+    this.issues.push(issue);
   }
 }
-
-export default Category;

@@ -5,7 +5,7 @@
         class="d-inline-block"
         style="width: 80px"
         :style="{
-          'background-color': `${ category.color } !important`,
+          'background-color': `${category.color} !important`,
         }"
         >{{ issue.key }}</b-badge
       >
@@ -51,7 +51,7 @@ export default {
     category: {
       required: true,
       type: Object,
-    }
+    },
   },
 };
 </script>

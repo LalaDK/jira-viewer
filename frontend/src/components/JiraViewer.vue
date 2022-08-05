@@ -1,46 +1,58 @@
 <template>
   <div>
-    {{ settings }}
     <button
       id="refreshBtn"
       class="btn btn-outline-primary"
       type="button"
-      :disabled="!settings.token"
       @click="query"
     >
       <b-icon-arrow-clockwise />
     </button>
-    <SidebarOptions v-model="settings" />
+    <SidebarOptions />
     <b-container class="my-3">
       <b-row>
         <b-col>
-          <div
-            v-for="category in settings.categories"
-            :key="category.name"
-            class="group-container"
-          >
-            <b-badge
-              :style="{'background-color': `${ category.color } !important`}"
-              >{{ category.name }} ({{ category.issues.length }})</b-badge
-            >
-            <div role="tablist">
-                <div class="issues-container">
-                  <b-accordion flush>
-                    <b-accordion-item
-                      v-for="issue in category.issues"
-                      :key="issue.id"
-                    >
-                      <template #title>
-                        <IssueHeader
-                          :issue="issue"
-                          :category="category"
-                        />
-                      </template>
-                      <IssueBody :issue="issue" />
-                    </b-accordion-item>
-                  </b-accordion>
+          <b-alert variant="danger" :show="!!error" @click="error = null">
+            {{ error }}
+          </b-alert>
+          <div class="center" v-if="loading" id="spinner">
+            <b-spinner variant="primary" label="Spinning"></b-spinner>
+          </div>
+          <div>
+            <b-tabs content-class="mt-3" align="center" pills>
+              <b-tab title="First" v-for="project in projects">
+                <template #title>
+                  {{ project.name }}
+                </template>
+                <div
+                  v-for="category in project.categories"
+                  :key="category.name"
+                  class="group-container"
+                >
+                  <b-badge
+                    :style="{
+                      'background-color': `${category.color} !important`,
+                    }"
+                    >{{ category.name }} ({{ category.issues.length }})</b-badge
+                  >
+                  <div role="tablist">
+                    <div class="issues-container">
+                      <b-accordion flush>
+                        <b-accordion-item
+                          v-for="issue in category.issues"
+                          :key="issue.id"
+                        >
+                          <template #title>
+                            <IssueHeader :issue="issue" :category="category" />
+                          </template>
+                          <IssueBody :issue="issue" />
+                        </b-accordion-item>
+                      </b-accordion>
+                    </div>
+                  </div>
                 </div>
-            </div>
+              </b-tab>
+            </b-tabs>
           </div>
         </b-col>
       </b-row>
@@ -52,22 +64,20 @@
 import IssueHeader from "./IssueHeader";
 import IssueBody from "./IssueBody";
 import SidebarOptions from "./SidebarOptions.vue";
-import Category from "./category.js";
+import Jira from "./jira.js";
 const axios = require("axios").default;
+var jira;
+
 export default {
   name: "JiraViewer",
   components: { IssueBody, IssueHeader, SidebarOptions },
   data() {
     return {
-      settings: {
-        token: null,
-        teamName: null,
-        teamNames: [],
-        categories: [],
-      }
+      error: null,
+      loading: false,
+      projects: [],
     };
   },
-
 
   created() {
     this.query();
@@ -75,18 +85,26 @@ export default {
 
   methods: {
     query() {
-    if(!this.settings.token) {
-      return;
-    }
-      axios.post("/api/issues", { token: this.settings.token }).then(
+      this.error = null;
+      this.projects = [];
+      let token = localStorage.getItem("token");
+      if (!token) {
+        this.error =
+          "Du skal angive en 'Personal Access Token' i Indstillinger.";
+        return;
+      }
+
+      this.loading = true;
+      axios.post("/api/issues", { token }).then(
         (response) => {
-          this.settings.categories = Category.generateCategories(
-            response.data.issues
-          );
-          this.settings.teamNames = Category.teamNames;
+          jira = new Jira(response.data.issues);
+          window.jira = jira;
+          this.projects = jira.projects;
+          this.loading = false;
         },
         (error) => {
-          alert("Der skete en fejl. Kunne ikke hente data.");
+          this.loading = false;
+          this.error = error.response.data;
         }
       );
     },
@@ -110,10 +128,9 @@ export default {
   cursor: pointer;
   font-size: 90%;
   user-select: none;
-}
-:deep(.group-container > .badge:not(.collapsed):first-child) {
   border-radius: 0.375rem 0.375rem 0 0 !important;
 }
+
 .issues-container {
   border: 2px solid #ccc;
   border-radius: 0 5px 5px 5px;
@@ -132,5 +149,14 @@ export default {
 :deep(.accordion-body) {
   --bs-accordion-body-padding-y: 0px;
   --bs-accordion-body-padding-x: 0px;
+}
+
+.center {
+  text-align: center;
+}
+
+#spinner {
+  positon: relative;
+  margin-top: 50px;
 }
 </style>
