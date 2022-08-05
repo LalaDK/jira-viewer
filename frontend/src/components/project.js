@@ -1,9 +1,30 @@
 import Category from "./category.js";
 
 export default class Project {
+  static categorySortOrder = [
+    "Not Done",
+    "To Do",
+    "Refinement",
+    "Ready",
+    "In Progress",
+    "Ready for Test",
+    "Ready for Release",
+    "In production",
+  ];
+
   constructor(name) {
     this.name = name || "";
     this.categories = [];
+  }
+
+  sort() {
+    this.categories.sort((a, b) => {
+      return (
+        Project.categorySortOrder.indexOf(a.name) -
+        Project.categorySortOrder.indexOf(b.name)
+      );
+    });
+    this.categories.forEach((category) => category.sort());
   }
 
   addIssue(issue) {

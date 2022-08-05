@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-7">
+      <div class="col-lg-7">
         <div class="bold">Beskrivelse</div>
         <div style="white-space: pre-wrap">{{ issue.fields.description }}</div>
         <div

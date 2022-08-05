@@ -43,7 +43,12 @@
                           :key="issue.id"
                         >
                           <template #title>
-                            <IssueHeader :issue="issue" :category="category" />
+                            <div class="d-block  d-md-none w-100">
+                              <IssueHeaderMobile :issue="issue" :category="category" />
+                            </div>
+                            <div class="d-none d-md-block w-100">
+                              <IssueHeader :issue="issue" :category="category" />
+                            </div>
                           </template>
                           <IssueBody :issue="issue" />
                         </b-accordion-item>
@@ -62,6 +67,7 @@
 
 <script>
 import IssueHeader from "./IssueHeader";
+import IssueHeaderMobile from "./IssueHeaderMobile";
 import IssueBody from "./IssueBody";
 import SidebarOptions from "./SidebarOptions.vue";
 import Jira from "./jira.js";
@@ -70,7 +76,7 @@ var jira;
 
 export default {
   name: "JiraViewer",
-  components: { IssueBody, IssueHeader, SidebarOptions },
+  components: { IssueBody, IssueHeader, IssueHeaderMobile, SidebarOptions },
   data() {
     return {
       error: null,

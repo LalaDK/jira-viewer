@@ -1,6 +1,6 @@
 <template>
   <div class="row w-100">
-    <div class="col-9">
+    <div class="col">
       <b-badge
         class="d-inline-block"
         style="width: 80px"
@@ -10,18 +10,19 @@
         >{{ issue.key }}</b-badge
       >
       <span class="mx-1 d-inline-block"
-        >{{ issue.fields.summary.truncate(100) }}
+        >{{ issue.fields.summary }}
       </span>
     </div>
-    <div class="col">
-      <span class="small"
+    </div>
+    <div class="row">
+    <div class="col center">
+      <span class="small d-inline-block mx-1"
         >{{
           Date.create().daysSince(Date.create(issue.fields.created))
         }}
         dage</span
       >
-    </div>
-    <div v-if="issue.fields.assignee" class="col">
+    <div v-if="issue.fields.assignee" class="col d-inline-block mx-1">
       <b-avatar
         variant="info"
         size="sm"
@@ -32,12 +33,11 @@
             .join('')
         "
       ></b-avatar>
-    </div>
-    <div class="col pull-right">
-      <b-badge v-if="issue.fields.comment.comments.length" variant="warning">
+      <b-badge v-if="issue.fields.comment.comments.length" variant="warning" class="mx-1">
         {{ issue.fields.comment.comments.length }}
         <b-icon-chat />
       </b-badge>
+    </div>
     </div>
   </div>
 </template>
@@ -61,5 +61,8 @@ export default {
 }
 .pull-right {
   text-align: right;
+}
+.center {
+  text-align: center;
 }
 </style>

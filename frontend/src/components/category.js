@@ -26,4 +26,10 @@ export default class Category {
   addIssue(issue) {
     this.issues.push(issue);
   }
+
+  sort() {
+    this.issues.sort(
+      (a, b) => new Date(a.fields.created) - new Date(b.fields.created)
+    );
+  }
 }

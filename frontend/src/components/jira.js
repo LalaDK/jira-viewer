@@ -18,6 +18,7 @@ export default class Jira {
     });
 
     this.projects = Object.values(this.projects);
+    this.projects.forEach((project) => project.sort());
   }
 
   projectNames() {
@@ -26,18 +27,5 @@ export default class Jira {
 
   getProject(projectName) {
     return this.projects.find((project) => project.name == projectName);
-  }
-
-  static defaultCategorySortOrder() {
-    return [
-      "Not Done",
-      "To Do",
-      "Refinement",
-      "Ready",
-      "In Progress",
-      "Ready for Test",
-      "Ready for Release",
-      "In production",
-    ];
   }
 }
